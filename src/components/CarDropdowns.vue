@@ -25,32 +25,29 @@ export default {
   methods: {
     getYear() {
       this.axios
-        .get(
-          "https://rateengine.ship.cars/v2/vehicles/years/?token=5cbe12fb62f4941267d623499a2a4fd5948fd3ef"
-        )
+        .get("http://new.api.nexusautotransport.com/api/vehicles/years")
         .then((res) => {
-          this.yearList = res.data.map((item) => item.year);
+          this.yearList = [...res.data.data];
         });
     },
     selectedYear(value) {
       this.currentYear = value;
       this.axios
         .get(
-          `https://rateengine.ship.cars/v2/vehicles/makes/?year=${value}&token=5cbe12fb62f4941267d623499a2a4fd5948fd3ef`
+          `http://new.api.nexusautotransport.com/api/vehicles/makes/?year=${value}`
         )
         .then((res) => {
-          this.makeList = res.data.map((item) => item.make);
+          this.makeList = res.data.data.map((item) => item.name);
         });
     },
     selectedMake(value) {
       this.currentMake = value;
       this.axios
         .get(
-          `https://rateengine.ship.cars/v2/vehicles/models/?year=${this.currentYear}&make=${value}&token=5cbe12fb62f4941267d623499a2a4fd5948fd3ef`
+          `http://new.api.nexusautotransport.com/api/vehicles/?year=${this.currentYear}&make=${value}`
         )
         .then((res) => {
-          console.log(res.data);
-          this.modelList = res.data.map((item) => item.model);
+          this.modelList = res.data.data.map((item) => item.model);
         });
     },
   },
